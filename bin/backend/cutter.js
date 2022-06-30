@@ -4,9 +4,9 @@ const fs = require('fs');
 const soundJSON = JSON.parse(fs.readFileSync(path.resolve(__dirname, './../../sounds/sound.json'), 'utf-8'));
 
 
-function cutSprite(name){
+async function cutSprite(name){
    const sprite = soundJSON.sprite[name];
-   MP3Cutter.cut({
+   await MP3Cutter.cut({
       src: path.resolve(__dirname, './../../sounds/sound.mp3'),
       target: path.resolve(__dirname, './../../sounds/cutted', name + '.mp3'),
       start: (sprite[0] / 1000),

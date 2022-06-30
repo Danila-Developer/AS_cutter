@@ -5,8 +5,10 @@ window.onclick = (e) => {
       drums.play(soundToPlay);
    }
    if (e.target.classList.contains('pad-button__cut-img')) {
-      fetch('http://localhost:3000/api/cut?sprite=' + e.target.dataset.sound);
-      e.target.parentNode.parentNode.parentNode.classList.add('pad-cutted');
+      fetch('http://localhost:3000/api/cut?sprite=' + e.target.dataset.sound)
+      .then( () => {
+         e.target.parentNode.parentNode.parentNode.classList.add('pad-cutted');
+      })
    }
 }
 

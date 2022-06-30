@@ -5,6 +5,8 @@ const cutSprite = require('./cutter')
 const PORT = 3000;
 const app = express()
 
+app.setMaxListeners(20);
+
 app.use(express.static(path.resolve(__dirname, '../../sounds')))
 console.log(path.resolve(__dirname, '../../sounds'))
 app.use(express.static(path.resolve(__dirname, '../frontend')))
@@ -20,7 +22,9 @@ app.get('/', (req, res) =>{
 
 app.get('/api/cut', (req, res) =>{
    cutSprite(req.query['sprite']);
+   res.send('ok');
 });
+
 
 app.get('/api/get-json', (req, res) => {
    res.sendFile(path.resolve(__dirname, '../../sounds/sound.json'));
