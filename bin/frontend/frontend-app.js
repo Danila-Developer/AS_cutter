@@ -176,6 +176,7 @@ document.querySelector('#json-input_input').onchange = (e) => {
             removeAllPads()
             fetchAndCreatePads()
             location.reload()
+            fetch(`http://localhost:3000/api/change-dir?value=default-path`)
          }
       })
    }
@@ -185,7 +186,7 @@ document.querySelector('#json-input_input').onchange = (e) => {
 
 document.querySelector('#sound-input_input').onchange = (e) => {
    Array.from(e.target.files).forEach(file => {
-      const fileName = file.name.split('.')
+      
       
       let reader = new FileReader()
       reader.readAsDataURL(file)
@@ -196,7 +197,7 @@ document.querySelector('#sound-input_input').onchange = (e) => {
                'Content-Type': 'application/json'
             },
             method: 'POST',
-            body: JSON.stringify({file: reader.result, name: req.body.name})
+            body: JSON.stringify({file: reader.result, name: file.name})
          }).then(()=> {
             
          })

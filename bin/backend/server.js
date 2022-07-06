@@ -68,7 +68,7 @@ app.get('/api/cut-all', (req, res) => {
 
 app.post('/api/change-sound', async (req, res) => {
    const file = req.body.file
-   const dir = path.resolve(__dirname, '../../sounds')
+   const dir = path.resolve(__dirname, './../../sounds')
    const name =  req.body.name
    await udloadFile({file, dir, name})
    res.send('ok')
