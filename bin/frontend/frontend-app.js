@@ -1,3 +1,14 @@
+const defaulJSON = {
+   "src": [
+     ""
+   ],
+   "sprite": {
+     "": []
+   }
+}
+      
+
+
 window.onclick = (e) => {
    if (e.target.classList.contains('pad-button__play-img')) {
       let soundToPlay = e.target.dataset.sound;
@@ -12,7 +23,10 @@ window.onclick = (e) => {
    }
 }
 
+const allStrites = []
+
 function createPad(name) {
+   allStrites.push(name)
    let pad = document.createElement('div');
    pad.classList.add('pad');
    pad.dataset.sound = name;
@@ -53,11 +67,18 @@ async function fetchSoundJSON() {
    await fetch('http://localhost:3000/api/get-json')
       .then(data => data.json())
       .then(json => {
-         soundJSON = parseSoundJSON(json);
-         drums = new Howl(soundJSON);
+         try{
+            soundJSON = parseSoundJSON(json);
+            drums = new Howl(soundJSON);
+         } catch {
+            soundJSON = defaulJSON
+            drums = new Howl(soundJSON);
+         }
+         
       });
 }
-fetchSoundJSON()
+function fetchAndCreatePads(){
+   fetchSoundJSON()
    .then(() => {
       let spriteNames = [];
       for (sprite in soundJSON.sprite) {
@@ -67,6 +88,9 @@ fetchSoundJSON()
          createPad(spriteNames[i]);
       }
    });
+}
+fetchAndCreatePads()
+
 
 let isIgnoreLoop = false;
 document.querySelector('#loop-checkbox').onclick = (e)=>{
@@ -121,6 +145,77 @@ function parseSoundJSON(soundJSON) {
    }
 }
 
+function cutAll(){
+   document.querySelector('.cut-all').onclick = (e) => {
+      fetch(`http://localhost:3000/api/cut-all?sprites=${allStrites}`)
+      .then(()=>{
+         document.querySelector('.cut-all').classList.add('pad-cutted')
+      })
+   }
+}
+
+cutAll()
+
+const sountInput = document.querySelector('#sound-input_input')
+const jsonInput = document.querySelector('#json-input_input')
+
+document.querySelector('#json-input_input').onchange = (e) => {
+   let file = e.target.files[0]
+   let reader = new FileReader()
+   reader.readAsDataURL(file)
+
+   reader.onload = () => {
+      fetch('http://localhost:3000/api/change-json', {
+         headers: {
+             'Content-Type': 'application/json'
+         },
+         method: 'POST',
+         body: JSON.stringify({file: reader.result})
+      }).then(()=> {
+         if (sountInput.files[0]) {
+            removeAllPads()
+            fetchAndCreatePads()
+            location.reload()
+         }
+      })
+   }
+}
+
+
+
+document.querySelector('#sound-input_input').onchange = (e) => {
+   Array.from(e.target.files).forEach(file => {
+      const fileName = file.name.split('.')
+      const type = '.' + fileName[fileName.length - 1]
+      let reader = new FileReader()
+      reader.readAsDataURL(file)
+
+      reader.onload = () => {
+         fetch('http://localhost:3000/api/change-sound', {
+            headers: {
+               'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify({file: reader.result, type})
+         }).then(()=> {
+            
+         })
+      }
+   })
+   
+}
+
+function removeAllPads(){
+   document.querySelectorAll('.pad').forEach(pad => {
+      pad.remove()
+   })
+}
+
+document.querySelector('#save-input_input').onchange = (e) => {
+   if (document.querySelector('#save-checkbox').checked) {
+      fetch(`http://localhost:3000/api/change-dir?value=${e.target.value}`)
+   }
+}
 
 
 

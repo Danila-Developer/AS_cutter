@@ -14,10 +14,44 @@
 
 
    <div class="dramkit">
-      <div class="loop-check">
-         <input type="checkbox" class="loop-checkbox" id="loop-checkbox">
-         <label for="loop-checkbox">Ignore loop</label>
+      
+      <!-- <div class="pad-input" data-sound="">
+         <div class="pad-name save-input_input-block">
+            <input type="checkbox" class="save-checkbox" id="save-checkbox">
+            <input type="text" placeholder="Сохранить в..." id="save-input_input">
+         </div>
+      </div> -->
+
+      <div class="pad-input" data-sound="">
+         <div class="pad-name">
+            <label for="sound-input_input">Sounds</label>
+            <input type="file" placeholder="" id="sound-input_input" accept=".mp3, .ac3, .m4a, .ogg, .webm" multiple>
+         </div>
       </div>
+      <div class="pad-input" data-sound="">
+         <div class="pad-name">
+            <label for="json-input_input">JSON</label>
+            <input type="file" placeholder="" id="json-input_input" accept=".json">
+         </div>
+      </div>
+      <div class="loop-cut_all">
+         <div class="pad2">
+            <div class="pad-name">
+               <input type="checkbox" class="loop-checkbox" id="loop-checkbox">
+               <label for="loop-checkbox">Ignore loop</label>
+            </div>
+         </div>
+         <div class="pad2 cut-all">
+            <div class="pad-name">Cut all</div>
+         </div>
+      </div>
+
+      <div class="demimer"></div>
+      
+      
+
+
+      
       <!-- <div class="pad" data-sound="">
          <div class="pad-name">clap</div>
          <div class="pad-buttons">

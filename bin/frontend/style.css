@@ -31,6 +31,33 @@ body{
    margin-bottom: 10px;
 }
 
+.pad-input{
+   height: 40px;
+   width: 400px;
+   background-color: #fff;
+   border: 1px solid black;
+   border-radius: 5px;
+   display: flex;
+   align-items: center;
+   margin-bottom: 10px;
+}
+
+.pad2{
+   height: 40px;
+   width: 190px;
+   background-color: #fff;
+   border: 1px solid black;
+   border-radius: 5px;
+   display: flex;
+   align-items: center;
+   margin-bottom: 10px;
+}
+
+.loop-cut_all{
+   display: flex;
+   justify-content: space-between;
+}
+
 .pad-cutted{
    border: 1px solid #399500;
 }
@@ -66,4 +93,21 @@ body{
 
 .loop-check{
    margin-bottom: 10px;
+}
+
+.demimer{
+   height: 1px;
+   background-color: black;
+   margin-bottom: 10px;
+   border-radius: 2px;
+}
+
+.cut-all{
+   cursor: pointer;
+}
+
+.save-input_input-block input[type="text"]{
+   height: 30px;
+   width: 300px;
+   border: none;
 }
