@@ -186,7 +186,7 @@ document.querySelector('#json-input_input').onchange = (e) => {
 document.querySelector('#sound-input_input').onchange = (e) => {
    Array.from(e.target.files).forEach(file => {
       const fileName = file.name.split('.')
-      const type = '.' + fileName[fileName.length - 1]
+      
       let reader = new FileReader()
       reader.readAsDataURL(file)
 
@@ -196,7 +196,7 @@ document.querySelector('#sound-input_input').onchange = (e) => {
                'Content-Type': 'application/json'
             },
             method: 'POST',
-            body: JSON.stringify({file: reader.result, type})
+            body: JSON.stringify({file: reader.result, name: req.body.name})
          }).then(()=> {
             
          })
@@ -217,5 +217,14 @@ document.querySelector('#save-input_input').onchange = (e) => {
    }
 }
 
+document.querySelector('#save-checkbox').onchange = async (e) => {
+   const input = document.querySelector('#save-input_input')
+   if (e.target.checked) {
+      input.disabled = false
+   } else {
+      input.disabled = true
+      await fetch(`http://localhost:3000/api/change-dir?value=default-path`)
+   }
+}
 
 

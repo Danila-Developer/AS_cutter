@@ -27,8 +27,13 @@ app.get('/', (req, res) =>{
 });
 
 app.get('/api/cut', (req, res) =>{
-   cutSprite(req.query['sprite'], baseSaveDir);
-   res.send('ok');
+   try {
+      cutSprite(req.query['sprite'], baseSaveDir);
+      res.send('ok');
+   } catch {
+      console.log('Некорректный путь к папке')
+      res.sendStatus(400)
+   }
 });
 
 app.post('/api/change-json', async (req, res) => {
@@ -42,7 +47,7 @@ app.post('/api/change-json', async (req, res) => {
 
 
 app.get('/api/get-json', (req, res) => {
-   removeAllSprites(baseSaveDir)
+   removeAllSprites(path.resolve(__dirname, './../../sounds/cutted'))
    
    
    if (fs.existsSync(path.resolve(__dirname, '../../sounds/sound.json'))) {
@@ -64,19 +69,26 @@ app.get('/api/cut-all', (req, res) => {
 app.post('/api/change-sound', async (req, res) => {
    const file = req.body.file
    const dir = path.resolve(__dirname, '../../sounds')
-   const name = 'sound' + req.body.type
+   const name =  req.body.name
    await udloadFile({file, dir, name})
    res.send('ok')
 })
 
 app.get('/api/change-dir', (req, res) => {
+   console.log(req.query.value)
+   if (req.query.value == 'default-path') {
+      baseSaveDir = path.resolve(__dirname, './../../sounds/cutted')
+      return res.sendStatus(200)
+   }
    const dirArr = req.query.value.split('\\')
    baseSaveDir = dirArr.reduce((prev, cur) => {
       return prev + '/' + cur
    })
    if (fs.existsSync(baseSaveDir)) {
-      fs.mkdirSync(path.join(baseSaveDir, 'cutted'))
-      baseSaveDir = baseSaveDir + '/cutted'
+      res.sendStatus(200)
+   } else {
+      console.log('Некорректный путь к папке')
+      res.sendStatus(400)
    }
-   res.sendStatus(200)
+   
 })

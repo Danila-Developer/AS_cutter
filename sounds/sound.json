@@ -8,8 +8,7 @@
   "sprite": {
     "airplane": [
       0,
-      2500, 
-      true
+      2500
     ],
     "bar": [
       3000,
