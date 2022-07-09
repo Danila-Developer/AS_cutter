@@ -75,7 +75,6 @@ app.post('/api/change-sound', async (req, res) => {
 })
 
 app.get('/api/change-dir', (req, res) => {
-   console.log(req.query.value)
    if (req.query.value == 'default-path') {
       baseSaveDir = path.resolve(__dirname, './../../sounds/cutted')
       return res.sendStatus(200)
